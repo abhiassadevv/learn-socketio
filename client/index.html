@@ -1,0 +1,34 @@
+<html>
+  <head>
+    <title>Socket io</title>
+  </head>
+  <body>
+    <div id="messages"></div>
+    <input type="text" name="message" id="message" placeholder="Message..."/>
+    <button onclick="sendMessage()">Send</button>
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+" crossorigin="anonymous"></script>
+    <script>
+      const socket = io('http://localhost:8000');
+      
+      socket.on('main', (msg) => {
+        console.log(msg);
+      });
+      
+      socket.on('message', (msg) => {
+        const div = document.createElement('div');
+        
+        div.innerText = msg;
+        
+        document.getElementById('messages').appendChild(div);
+      });
+      
+      const messageInput = document.getElementById('message');
+      
+      function sendMessage() {
+        const message = messageInput.value;
+        
+        socket.emit('message', message);
+      };
+    </script>
+  </body>
+</html>
